@@ -106,8 +106,10 @@ app.post("/upload", authenticate, upload.single("file"), (req, res) => {
 });
 
 // File Download Endpoint
-app.get("/download:filePath", authenticate, (req, res) => {
+app.get("/download/:filePath", (req, res) => {
+  console.log("filePath");
   const filePath = req.params.filePath;
+  console.log(filePath);
   const fullPath = path.join(__dirname, "uploads", filePath);
   console.log(filePath);
   if (!fs.existsSync(fullPath)) {
