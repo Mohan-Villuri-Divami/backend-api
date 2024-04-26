@@ -65,7 +65,6 @@ const upload = multer({
 });
 
 const authenticate = (req, res, next) => {
-  console.log(req.headers.authorization);
   const token = req.headers.authorization;
   if (!token) {
     return res.status(401).json({ message: "Unauthorized" });
@@ -106,11 +105,10 @@ app.post("/upload", authenticate, upload.single("file"), (req, res) => {
 });
 
 // File Download Endpoint
-app.get("/download/:filePath", (req, res) => {
-  console.log("filePath");
-  const filePath = req.params.filePath;
-  console.log(filePath);
-  const fullPath = path.join(__dirname, "uploads", filePath);
+app.post("/download", authenticate, (req, res) => {
+  const filePath = req.body.filePath;
+  console.log(req.body);
+  const fullPath = path.join(filePath);
   console.log(filePath);
   if (!fs.existsSync(fullPath)) {
     return res.status(404).json({ message: "File not found" });
