@@ -107,8 +107,7 @@ app.post("/upload", authenticate, upload.single("file"), (req, res) => {
 // File Download Endpoint
 app.post("/download", authenticate, (req, res) => {
   const filePath = req.body.filePath;
-  console.log(req.body);
-  const fullPath = path.join(filePath);
+  const fullPath = path.join(__dirname, filePath);
   console.log(filePath);
   if (!fs.existsSync(fullPath)) {
     return res.status(404).json({ message: "File not found" });
